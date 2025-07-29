@@ -28,89 +28,14 @@ Example Strategies:
 4,269
 Market Making: Placing buy and sell orders constantly, profiting from the bid-ask spread.
 
-
+```
 graph LR
     A[Incoming Orders] --> B[ConcurrentHashMap Matching]
     B --> C[Trade Output]
     C --> D[MPSC Channel]
     D --> E[DB Writer Thread]
     E --> F[Batched SQL INSERTs]
-
-    
-hft_forex_trader/
-├── rust_engine/                 # Rust-based execution engine
-│   ├── src/
-│   ├── main.rs
-│   ├── config/
-│   │   ├── mod.rs
-│   │   └── settings.rs
-│   ├── connection/
-│   │   ├── mod.rs
-│   │   └── broker.rs
-│   │   └── db.rs
-│   ├── controllers/
-│   │   ├── mod.rs
-│   │   └── auth_controller.rs
-│   │   └── user_controller.rs
-│   │   └── wallet_controller.rs
-│   ├── engine/
-│   │   ├── mod.rs
-│   │   └── trader.rs <!--Empty for now -->
-│   ├── enums/
-│   │   ├── mod.rs
-│   │   └── order_status.rs
-│   │   └── order_side.rs
-│   │   └── order_type.rs
-│   ├── repositories/
-│   │   ├── mod.rs
-│   │   └── auth_repository.rs
-│   │   └── wallet_repository.rs
-│   │   └── user_repository.rs
-│   ├── models/
-│   │   ├── mod.rs
-│   │   └── order.rs
-│   │   └── trade_pair.rs
-│   │   └── users.rs
-│   │   └── wallet.rs
-│   ├── services/
-│   │   ├── mod.rs
-│   │   └── auth_service.rs
-│   │   └── wallet_service.rs
-│   │   └── user_service.rs
-│   │   └── order_service.rs <!--Empty for now -->
-│   ├── ws/
-│   │   ├── mod.rs
-│   │   └── price_feed.rs <!--Empty for now -->
-│   ├── router/
-│   │   ├── mod.rs
-│   │   └── url.rs
-│   ├── utils/
-│   │   ├── mod.rs
-│   │   └── jwt.rs
-│   ├── middlware/
-│   │   ├── mod.rs
-│   │   └── auth.rs 
-│   └── config.rs
-│   ├── Cargo.toml
-│   └── .env
-│
-├── python_core/                # Strategy engine & mock feed
-│   ├── market_data/
-│   │   ├── mock_feed.py        # Simulated GBP/USD price stream
-│   └── strategy/
-│       └── market_maker.py     # Sample strategy
-│
-├── interface/
-│   ├── command.py              # CLI runner
-│
-├── common/
-│   ├── models.py               # Shared structs/schemas
-│   └── config.yaml             # API keys, settings
-│
-├── README.md
-└── .gitignore
-
-
+```
 🎯 Ultimate Goal:
 Build a high-speed, event-driven system that:
 
