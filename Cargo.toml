@@ -1,0 +1,81 @@
+[package]
+name = "rust_engine"
+version = "0.1.0"
+edition = "2024"
+authors = ["David Ak <davidak@aol.com>"]
+description = "A high-performance key-value store in Rust"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+sqlx = { version = "0.8.6", features = [
+    "runtime-tokio",
+    "mysql",
+    "uuid",
+    "chrono",
+    "migrate",
+    "bigdecimal",
+] }
+dotenvy = "0.15"
+dotenv = "0.15"
+env_logger = "0.11.7"
+futures-util = "0.3"
+openssl-probe = "0.1"
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "2.0.1"
+bytes = "1.0"
+thiserror = "2.0.12"
+tracing = "0.1"
+tower = "0.5.2"
+http = "1"
+http-body-util = "0.1"
+axum = { version = "0.7", features = ["ws"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+utoipa-swagger-ui = { version = "9.0.0", features = ["actix-web"] }
+jsonwebtoken = "9"
+argon2 = "0.5"
+validator = { version = "0.20.0", features = ["derive"] }
+dashmap = "6.1.0"
+bigdecimal = { version = "0.4", features = ["serde"] }
+clap = { version = "4.5.41", features = ["derive"] }
+tower-http = { version = "0.6.6", features = ["cors"] }
+anyhow = "1.0.98"
+hyper = "1"
+password-hash = "0.5"
+rand_core = "0.9.3"
+async-trait = "0.1"
+headers = "0.4"
+axum-auth = "0.8.1"
+once_cell = "1.19"
+tokio-tungstenite = "0.27.0"
+futures = "0.3"
+num-bigint = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+sha2 = "0.10.9"
+hex = "0.4.3"
+bs58 = "0.5.0"
+ed25519-dalek = { version = "2.1.1", features = ["rand_core"] }
+
+
+
+
+[dev-dependencies]
+tokio-test = "0.4"
+criterion = "0.7.0"
+tokio = { version = "1.0", features = ["full", "rt-multi-thread", "macros"] }
+tempfile = "3.3"
+http = "1"
+http-body-util = "0.1"
+hyper = "1"
+
+[features]
+default = []
+ttl = []
+lsm = []
+binary-protocol = []
+replication = []
+persistence = []
+full = []
