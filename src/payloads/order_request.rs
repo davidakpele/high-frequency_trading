@@ -1,7 +1,8 @@
 use bigdecimal::BigDecimal;
 use serde::{Deserialize, Serialize};
 
-use crate::enums::order_side::OrderSide;
+use crate::enums::types::OrderSide;
+
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct OrderRequest {

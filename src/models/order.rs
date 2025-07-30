@@ -1,22 +1,33 @@
-use chrono::{NaiveDateTime};
-use serde::{Deserialize, Serialize};
-use sqlx::FromRow;
-use crate::enums::order_status::OrderStatus;
-use crate::enums::order_type::OrderType;
-use bigdecimal::BigDecimal;
+use serde::{Serialize, Deserialize};
+use crate::enums::{order_type::OrderType, types::OrderSide};
+use crate::payloads::order_payload::CreateOrderPayload;
+use std::convert::TryFrom;
 
-#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
-pub struct Orders {
-    pub id: String,
-    pub user_id: String,
-    pub is_maker: bool,
-    pub trading_pair: String, // e.g., "BTC/USD"
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Order {
+    pub id: u64,
+    pub side: OrderSide,
     pub order_type: OrderType,
-    pub price: BigDecimal,
-    pub amount: BigDecimal,
-    pub filled_amount: BigDecimal,
-    pub status: OrderStatus,
-    pub bank_id: Option<i64>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
+    pub symbol: String,
+    pub price: Option<u64>,  
+    pub quantity: u64,
+    pub timestamp: u64, 
+}
+
+impl TryFrom<CreateOrderPayload> for Order {
+    type Error = String;
+
+    fn try_from(payload: CreateOrderPayload) -> Result<Self, Self::Error> {
+        let order_id: u64 = 0;
+
+        Ok(Order {
+            id: order_id,
+            side: payload.side,
+            order_type: payload.order_type,
+            symbol: payload.symbol,
+            price: payload.price,
+            quantity: payload.quantity,
+            timestamp: chrono::Utc::now().timestamp_nanos() as u64,
+        })
+    }
 }

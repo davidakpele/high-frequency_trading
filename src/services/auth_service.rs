@@ -1,7 +1,3 @@
-use std::str::FromStr as _;
-
-use crate::repositories::wallet_repository::WalletRepository;
-use bigdecimal::BigDecimal;
 use rand::rngs::OsRng; 
 use ed25519_dalek::SigningKey;
 use bs58;
@@ -36,25 +32,6 @@ pub async fn register_user(
     let hashed_password = hash_password(&req.password)?;
     let repo = AuthenticationRepository { db: db.clone() };
     let user = repo.create_user(&req.email, &req.username, &hashed_password).await?;
-    let zero_balance = BigDecimal::from_str("0.00").unwrap();
-
-    // Create wallets for each crypto asset
-    let wallet_repo = WalletRepository { pool: db.clone() };
-    let cryptos = vec!["bitcoin", "solana", "ethereum", "litecoin", "bitcoin_cash"];
-
-    for crypto in &cryptos {
-        let wallet_address = generate_wallet_address(crypto);
-        let _wallet = wallet_repo
-            .create_wallet(
-                user.id.to_string(),
-                crypto,
-                zero_balance.clone(),
-                Some(wallet_address),
-                1,
-            )
-            .await?;
-    }
-
     Ok(user)
 }
 
