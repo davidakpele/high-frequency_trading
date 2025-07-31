@@ -1,3 +1,4 @@
+use bigdecimal::BigDecimal;
 use serde::{Serialize, Deserialize};
 use crate::enums::{order_type::OrderType, types::OrderSide};
 use crate::payloads::order_payload::CreateOrderPayload;
@@ -9,8 +10,8 @@ pub struct Order {
     pub side: OrderSide,
     pub order_type: OrderType,
     pub symbol: String,
-    pub price: Option<u64>,  
-    pub quantity: u64,
+    pub price: Option<BigDecimal>,  
+    pub quantity: BigDecimal,
     pub timestamp: u64, 
 }
 

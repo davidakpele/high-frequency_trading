@@ -47,7 +47,7 @@ pub fn generate_token(user_id: i64, email: String, is_admin: bool) -> Result<Str
     Ok(token)
 }
 
-#[allow(dead_code)]
+
 pub fn decode_token(token: &str) -> Result<Claims> {
     let secret = get_secret()?;
 

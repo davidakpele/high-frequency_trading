@@ -1,9 +1,11 @@
 use dashmap::DashMap;
 use std::collections::VecDeque;
 use tokio::sync::mpsc;
+use num::Zero;
 
 use crate::{enums::types::OrderSide, matching::trade::Trade, models::order::Order};
 
+#[allow(dead_code)]
 pub struct OrderBook {
     bids: DashMap<String, VecDeque<Order>>, 
     asks: DashMap<String, VecDeque<Order>>,
@@ -19,6 +21,7 @@ impl OrderBook {
         }
     }
 
+    #[allow(dead_code)]
     pub fn send_trade(&self, trade: Trade) -> Result<(), mpsc::error::SendError<Trade>> {
         self.trade_tx.send(trade)
     }
@@ -35,6 +38,7 @@ impl OrderBook {
            .push_back(order);
     }
 
+    #[allow(dead_code)]
     pub fn match_orders(&mut self) -> Vec<Trade> { 
         let mut trades = Vec::new();
         
@@ -52,20 +56,21 @@ impl OrderBook {
                 // Match orders while both sides have liquidity
                 while !bids.is_empty() && !asks.is_empty() {
                     let (bid, ask) = (bids[0].clone(), asks[0].clone());
+
+                    // Borrow the quantities to avoid moving them
+                    let qty = bid.quantity.clone().min(ask.quantity.clone());
                     
-                    if bid.price >= ask.price {
-                        let qty = bid.quantity.min(ask.quantity);
-                        trades.push(Trade::new(bid, ask, qty));
-                        
-                        // Update quantities in place
-                        bids[0].quantity -= qty;
-                        asks[0].quantity -= qty;
-                        
-                        // Remove filled orders
-                        if bids[0].quantity == 0 { bids.pop_front(); }
-                        if asks[0].quantity == 0 { asks.pop_front(); }
-                    } else {
-                        break;  // No more crosses at this price level
+                    trades.push(Trade::new(bid.clone(), ask.clone(), qty.clone()));
+
+                    // Mutate in-place
+                    bids[0].quantity -= qty.clone();
+                    asks[0].quantity -= qty;
+
+                    if bids[0].quantity.is_zero() {
+                        bids.pop_front();
+                    }
+                    if asks[0].quantity.is_zero() {
+                        asks.pop_front();
                     }
                 }
             }

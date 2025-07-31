@@ -1,19 +1,23 @@
+use bigdecimal::BigDecimal;
+
 use crate::models::order::Order;
 
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct Trade {
     pub bid_id: u64,
     pub ask_id: u64,
     pub symbol: String,
-    pub price: u64,
-    pub quantity: u64,
+    pub price: BigDecimal,
+    pub quantity: BigDecimal,
     pub timestamp: u64,
 }
 
+#[allow(dead_code)]
 impl Trade {
     #[inline]
-    pub fn new(bid: Order, ask: Order, quantity: u64) -> Self {
+    pub fn new(bid: Order, ask: Order, quantity: BigDecimal) -> Self {
         let price = ask.price.unwrap_or(bid.price.unwrap());
         Self {
             bid_id: bid.id,

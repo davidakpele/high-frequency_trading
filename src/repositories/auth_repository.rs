@@ -1,4 +1,5 @@
 use sqlx::{MySqlPool, Row};
+use uuid::Uuid;
 use crate::{models::users::User, responses::responses::SafeUser};
 use anyhow::{Result, anyhow};
 use chrono::NaiveDateTime;
@@ -10,12 +11,13 @@ pub struct AuthenticationRepository {
 impl AuthenticationRepository {
     pub async fn create_user(&self, email: &str, username: &str, password: &str) -> Result<SafeUser> {
         let mut tx = self.db.begin().await?;
-
+        let uuid  = Uuid::new_v4().to_string();
         sqlx::query!(
             r#"
-            INSERT INTO users (email, username, password)
-            VALUES (?, ?, ?)
+            INSERT INTO users (uuid, email, username, password)
+            VALUES (?, ?, ?, ?)
             "#,
+            uuid,
             email,
             username,
             password,

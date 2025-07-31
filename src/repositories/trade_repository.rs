@@ -13,6 +13,7 @@ impl TradeRepository {
         Self { pool }
     }
 
+    #[allow(dead_code)]
     pub async fn bulk_insert(&self, trades: &[Trade]) -> Result<u64> {
         let start_time = Instant::now();
         
@@ -39,8 +40,8 @@ impl TradeRepository {
                 .bind(trade.bid_id)
                 .bind(trade.ask_id)
                 .bind(&trade.symbol)
-                .bind(trade.price)
-                .bind(trade.quantity)
+                .bind(trade.price.clone())
+                .bind(trade.quantity.clone())
                 .bind(trade.timestamp)
                 .execute(&mut *tx)
                 .await?
@@ -53,6 +54,7 @@ impl TradeRepository {
         Ok(affected_rows)
     }
 
+    #[allow(dead_code)]
     pub async fn bulk_insert_batched(&self, trades: Vec<Trade>, batch_size: usize) -> Result<u64> {
         let mut total_inserted = 0;
         

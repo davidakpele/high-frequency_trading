@@ -15,7 +15,21 @@
 - To provide liquidity — by buying when others sell and vice versa.
 - To react instantly to market events and news.
 
-## VERSION 2 IMPROVEMENT 
+## VERSION 1 
+- Authentication (SignIn / SignUp)
+- Authorization (Protected routing and Public Routes with Jwt Bearer Token and User Claims Access or Admin and User.)
+- Websocket configuration / Connection and User disconnection.
+- Message Broadcasting
+- Notifications and Error handling.
+- Process per-2-per trading, 
+    - Accept User Order request (Buy/Sell)
+    - Buy order save in order with status "OPEN"
+    - Sell Order save into order and also move the user assets to ESCROW pending user is book or match is found update this order status to PENDING and wait till Buyer confirm payment and sell to confimr payment before updating system release asset to buyer.
+    - Implemented user wallet and balance for each wallet like Bitcoin, solana and so on. 
+    - Implemented Crypto/ wallet Address, for platform to platform (market transfer)
+
+
+## VERSION 2 IMPROVEMENT (Still on-going)
 - Database Operations:
     - Async writes to database in background
     - Batch operations instead of per-trade updates
@@ -97,3 +111,5 @@ cargo build
 ```
 cargo run
 ```
+
+## VERSION 3 of this project will be python analyzing data and train our model for trading, at least 55% accurate of trade execution.

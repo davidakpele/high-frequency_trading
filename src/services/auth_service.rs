@@ -35,6 +35,7 @@ pub async fn register_user(
     Ok(user)
 }
 
+#[allow(dead_code)]
 fn generate_wallet_address(asset: &str) -> String {
     match asset.to_lowercase().as_str() {
         "ethereum" => generate_eth_wallet_address(),
@@ -46,6 +47,7 @@ fn generate_wallet_address(asset: &str) -> String {
     }
 }
 
+#[allow(dead_code)]
 fn generate_eth_wallet_address() -> String {
     use rand::RngCore;
     use sha2::{Sha256, Digest};
@@ -62,6 +64,7 @@ fn generate_eth_wallet_address() -> String {
     format!("0x{}", hex::encode(eth_address))
 }
 
+#[allow(dead_code)]
 fn generate_btc_wallet_address() -> String {
     use rand::RngCore;
     use sha2::{Sha256, Digest};
@@ -84,6 +87,7 @@ fn generate_btc_wallet_address() -> String {
     bs58::encode(data).into_string()
 }
 
+#[allow(dead_code)]
 pub fn generate_solana_wallet_address() -> String {
     let signing_key = SigningKey::generate(&mut OsRng);
     let public_key = signing_key.verifying_key();
